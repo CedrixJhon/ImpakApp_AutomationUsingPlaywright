@@ -1,66 +1,91 @@
 import { expect } from '@playwright/test';
-import { Credentials } from './Credentials';
-import { AddMember } from './Credentials';
 import { test } from './Fixtures';
+import { CredentialData } from './Credentials';
+import { Dashboard } from './Dashboard';
+import { InviteCreds } from './Credentials';
 
 
-test.describe('Login Test for Valid and Invalid Credentials', () => {
-  
-  // If 'Credentials' is still red, try: (Credentials as any[])
-  for (const scenario of Credentials) {
-    
-    test(`Scenario: ${scenario.name}`, async ({ loginPage }) => {
-      
-      await loginPage.login(scenario.username, scenario.password);
 
-      if (scenario.shouldError) {
-        // Validation for negative scenarios: Check for the error message
-       await expect(loginPage.ErrorCredsMsg).toHaveText(scenario.expectedError!);
-        await loginPage.verifyErrorMessage();
+
+
+test.describe('Login Tests', () => {
+
+  for (const data of CredentialData) {
+    test(`Scenario: ${data.id}`, async ({ urlNav }) => {
+    await urlNav.login(data.username, data.password);
+
+    if (data.IsError) {
+      await expect(urlNav.InvalidLoginError).toHaveText(data.ExpectedError!);
       } else {
-        // Checking the URL after a successful login
-        await expect(loginPage.page).toHaveURL(scenario.expectedURL!);
+      await expect(urlNav.page).toHaveURL(data.ExpectedURL!); 
       }
     });
   }
 });
 
-test('Login - Verify Login Text displays', async ({ loginPage }) => {
 
-  await loginPage.verifyLoginTextDisplays();
-
+test('Verify Login Text displays', async ({ urlNav }) => {
+  await urlNav.verifyLoginTextDisplays();
 });
 
-test('Dashboard - Verify Displayed Text is visible and matched on the Expected Display', async ({ loginPage,dashboardPage }) => {
-  await loginPage.login('cjbusa143@gmail.com', 'Password@123');
-  await dashboardPage.verifyDashboardDisplays();
+test('Verify Dashboard Elements are visible and have correct text', async ({ urlNav, page }) => {
+  await urlNav.login('cjbusa143@gmail.com', 'Password@123');
+  const dashboard = new Dashboard(page);
+  await dashboard.verifyDashboardElements_IsVisible();
+  await dashboard.verifyDashboardElements_HaveText();
+});
+test('Verify navigation when succesful click on first Company happened', async ({ urlNav, page,DashboardNav }) => {
+    await urlNav.login('cjbusa143@gmail.com', 'Password@123');
+    await DashboardNav.ChoseFirstOption.click();
+    await expect(page).toHaveURL(DashboardNav.FirstOptionURL);
 });
 
-test('Dashboard - Verify when choosing the first company will navigate to the main dashboard', async({loginPage,dashboardPage})=>{
-    await loginPage.login('cjbusa143@gmail.com', 'Password@123');
-    await dashboardPage.ChoseFirstCompany.click(); 
+test('Verify Company Dashoard Invite Button is clicked', async ({ urlNav,DashboardNav,CompanyDashboardNav }) => {
+  await urlNav.login('cjbusa143@gmail.com', 'Password@123');
+  await DashboardNav.ChoseFirstOption.click();
+  await expect(CompanyDashboardNav.InviteBtn).toBeVisible();
+  await CompanyDashboardNav.InviteBtn.click();
 });
 
-test('CompanyDashboard - Verify Invite Button Pop Up Displays', async({loginPage,dashboardPage,compDashboard})=>{
-    await loginPage.login('cjbusa143@gmail.com', 'Password@123');
-    await dashboardPage.ChoseFirstCompany.click(); 
-    await compDashboard.verifyPopUpDisplays();
-   
+test('Verify Company Dasboard Invite Pop Up Display', async ({ urlNav,DashboardNav,CompanyDashboardNav }) =>{
+  await urlNav.login('cjbusa143@gmail.com', 'Password@123');
+  await DashboardNav.ChoseFirstOption.click();
+  await CompanyDashboardNav.verifyCompanyDashboardElements_IsVisible();
 });
 
-test('Invited Members - Verify Added Member is added Successfully', async({loginPage,dashboardPage,compDashboard})=>{
-    await loginPage.login('cjbusa143@gmail.com', 'Password@123');
-    await dashboardPage.ChoseFirstCompany.click(); 
-    await compDashboard.addMemberViaDashboard(AddMember.email,AddMember.fname,AddMember.lname);
-
+test('Verify Company Dasboard Invite Pop Successful Invite', async ({ urlNav,DashboardNav,CompanyDashboardNav }) =>{
+  await urlNav.login('cjbusa143@gmail.com', 'Password@123');
+  await DashboardNav.ChoseFirstOption.click();
+  await CompanyDashboardNav.InputEmailInvite();
 });
-test('Invited Members - Verify Added Member is displayed in the Invited Members List', async({loginPage,dashboardPage,compDashboard,invitedMembers})=>{
-    await loginPage.login('cjbusa143@gmail.com', 'Password@123');
-    await dashboardPage.ChoseFirstCompany.click(); 
-    await compDashboard.goToInvitedMemberMenu();
-    await compDashboard.CloseBtn.click();
-    await expect(invitedMembers.GetEmailDisplayed).toBeVisible();
-    await expect(invitedMembers.GetFNameDisplayed).toBeVisible();
-    await expect(invitedMembers.GetLNameDisplayed).toBeVisible();
+
+
+test('Verify Invited Displayed on Invite Section --> Second User', async({page,urlNav,DashboardNav,CompanyDashboardNav,InvitedMembers}) =>{
+    await urlNav.login('cjbusa143@gmail.com', 'Password@123');
+    await DashboardNav.ChoseFirstOption.click();
+    await CompanyDashboardNav.navigationToInvitedSelection();
+    await InvitedMembers.AddMemberViaInvite(CompanyDashboardNav);
+    await page.reload();
+    await CompanyDashboardNav.ClosePopUp.click();
+    await page.reload();
+    await InvitedMembers.VerifyInvited_Displays();
+    
+    
+});
+test('Verify Invited Email Already Exists Error -->SecondUser', async({page,urlNav,DashboardNav,CompanyDashboardNav,InvitedMembers}) =>{
+  await urlNav.login('cjbusa143@gmail.com', 'Password@123');
+  await DashboardNav.ChoseFirstOption.click();
+  await CompanyDashboardNav.navigationToInvitedSelection();
+  await InvitedMembers.AddMemberViaInvite(CompanyDashboardNav);
+  await page.reload();
+  await InvitedMembers.AddMemberViaInvite(CompanyDashboardNav);
+  await expect(InvitedMembers.EmailAlreadyExistsError).toBeVisible();
+});
+
+test('Verify Delete Invited Member --> Second User', async({page,urlNav,DashboardNav,CompanyDashboardNav,InvitedMembers}) =>{
+  await urlNav.login('cjbusa143@gmail.com', 'Password@123');
+  await DashboardNav.ChoseFirstOption.click();
+  await CompanyDashboardNav.navigationToClosePopUp();
+  await InvitedMembers.DeleteInvitedMember(CompanyDashboardNav);
 
 });

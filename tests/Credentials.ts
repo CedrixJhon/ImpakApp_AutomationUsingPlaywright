@@ -1,26 +1,40 @@
 
-export const Credentials =[
-    {
-        name: 'Valid Login',
-        username: 'cjbusa143@gmail.com',
-        password: 'Password@123',
-        expectedURL: 'https://impak.app/dashboard',
-        shouldError: false,
-    },
+export const CredentialData = [
 
     {
-        name: 'Invalid Login - Wrong Password',
-        username: 'tyreuyre@gmail.com',
-        password: 'wrongpassword',
-        expectedError: 'Whoops! Something went wrong.',
-        shouldError: true,
-    }
+        "id": "Creds01_Valid",
+        "username": "cjbusa143@gmail.com",
+        "password": "Password@123",
+        "ExpectedURL": "https://impak.app/dashboard",
+        "IsError": false
+    },
+     {
+
+    
+        "id": "Creds02_Inalid",
+        "username": "cj@gmail.com",
+        "password": "Password@123",
+        "ExpectedError": "Invalid username or password entered.",
+        "IsError": true
+     }
 
 ];
 
-export const AddMember = {
-    email: 'impak01@yopmail.com',
-    fname: 'Soldier',
-    lname: 'LastSoldier',
-};
- 
+interface InviteEmailData{
+    userEmail : string
+    userFirstName: string
+    userLastName: string
+    SecondUserEmail : string
+    SecondUserFirstName: string
+    SecondUserLastName: string
+}
+
+export const InviteCreds: InviteEmailData = {
+    userEmail: "impak01@yopmail.com",
+    userFirstName: "James",
+    userLastName: "Yap",
+
+    SecondUserEmail: "impak02@yopmail.com",
+    SecondUserFirstName: "James2",
+    SecondUserLastName: "Yap2",
+}

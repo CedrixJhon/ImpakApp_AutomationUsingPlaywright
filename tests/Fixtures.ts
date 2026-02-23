@@ -1,41 +1,44 @@
-import {test as base} from '@playwright/test';
-import { LoginPage } from "./LoginPage";
-import { DashboardPage } from './Dashboard';
-import { companyDashboard } from './CompanyDashboard';
-import { InvitedMembers } from './InvitedMembers';
+import { test as base } from '@playwright/test';
+import { LoginPage } from './LoginPage';
+import { Dashboard } from './Dashboard';
+import { CompanyDashboard } from './CompanyDashboard';
+import { Invited_Members } from './Invited_Members';
 
 
-
-type Fixtures = {
-  loginPage: LoginPage;
-  dashboardPage: DashboardPage;
-  compDashboard: companyDashboard;
-  invitedMembers: InvitedMembers;
-
+//Defne the types for our fixtures
+type MyFixtures = {
+  urlNav: LoginPage;
+  DashboardNav: Dashboard;
+  CompanyDashboardNav: CompanyDashboard;
+  InvitedMembers: Invited_Members;
 };
 
-export const test = base.extend<Fixtures>({
-  loginPage: async ({ page }, use) => {
+//Extend the base test with our fixtures
+export const test = base.extend<MyFixtures>({
+  urlNav: async ({ page }, use) => {
     const loginPage = new LoginPage(page);
     await loginPage.goto();
+    
     await use(loginPage);
   },
-  
-  dashboardPage: async ({ page }, use) => {
-    const dashboardPage = new DashboardPage(page);
-    await use(dashboardPage);
+
+  // For Dasboard Fixtures where dasboard page is present
+  DashboardNav: async ({ page }, use) => {
+    const dashboard = new Dashboard(page);
+    await use(dashboard);
   },
-  compDashboard: async ({ page }, use) => {
-    const compDashboard = new companyDashboard(page);
-    await use(compDashboard);
+
+  CompanyDashboardNav: async ({ page }, use) => {
+    const companyDashboard = new CompanyDashboard(page);
+    await use(companyDashboard);
   },
-  invitedMembers: async ({ page }, use) => {
-    const invitedMembers = new InvitedMembers(page);
-    await use(invitedMembers);
+
+  InvitedMembers: async({page}, use) => {
+    const invitedmem = new Invited_Members(page);
+    await use(invitedmem);
   }
 
+
+
 });
-
-
-
 
