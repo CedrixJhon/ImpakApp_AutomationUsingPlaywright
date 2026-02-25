@@ -89,3 +89,10 @@ test('Verify Delete Invited Member --> Second User', async({page,urlNav,Dashboar
   await InvitedMembers.DeleteInvitedMember(CompanyDashboardNav);
 
 });
+
+
+test('Test for Changes only', async({urlNav}) =>{
+  await urlNav.login('cjbusa143@gmail.com', 'Password@123');
+  
+
+});
