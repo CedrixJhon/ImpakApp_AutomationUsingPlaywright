@@ -41,6 +41,8 @@ export class Invited_Members {
         await this.page.reload();
         await CompanyDashboardNav.ClosePopUp.click();
         await expect(this.page.getByText(targetEmail)).not.toBeVisible();
+
+        For fixes in the future -- deletion is not working
        */
     }
  
