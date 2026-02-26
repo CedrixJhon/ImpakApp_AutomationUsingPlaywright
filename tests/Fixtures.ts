@@ -3,6 +3,7 @@ import { LoginPage } from './LoginPage';
 import { Dashboard } from './Dashboard';
 import { CompanyDashboard } from './CompanyDashboard';
 import { Invited_Members } from './Invited_Members';
+import { Groups } from './Groups';
 
 
 //Defne the types for our fixtures
@@ -11,6 +12,7 @@ type MyFixtures = {
   DashboardNav: Dashboard;
   CompanyDashboardNav: CompanyDashboard;
   InvitedMembers: Invited_Members;
+  GroupsNav: Groups;
 };
 
 //Extend the base test with our fixtures
@@ -36,6 +38,11 @@ export const test = base.extend<MyFixtures>({
   InvitedMembers: async({page}, use) => {
     const invitedmem = new Invited_Members(page);
     await use(invitedmem);
+  },
+  
+  GroupsNav: async({page}, use) => {
+    const groups = new Groups(page);
+    await use(groups);
   }
 
 

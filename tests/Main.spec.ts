@@ -90,4 +90,17 @@ test('Verify Delete Invited Member --> Second User', async({page,urlNav,Dashboar
 
 });
 
+test ('Verify Navigattion to Groups Page', async({urlNav,DashboardNav,GroupsNav}) => {
+  await urlNav.login('cjbusa143@gmail.com', 'Password@123');
+  await DashboardNav.ChoseFirstOption.click();
+  await GroupsNav.ClickCommunityMenu();
 
+  });
+
+test('Verify Groups Header Displayed', async({urlNav,DashboardNav,GroupsNav}) => {
+  await urlNav.login('cjbusa143@gmail.com', 'Password@123');
+  await DashboardNav.ChoseFirstOption.click();
+  await GroupsNav.ClickCommunityMenu();
+  await GroupsNav.VerifyGroupDashboardDisplays()
+  
+});
