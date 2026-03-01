@@ -2,11 +2,6 @@ import { expect } from '@playwright/test';
 import { test } from './Fixtures';
 import { CredentialData } from './Credentials';
 import { Dashboard } from './Dashboard';
-import { InviteCreds } from './Credentials';
-
-
-
-
 
 test.describe('Login Tests', () => {
 
@@ -28,7 +23,7 @@ test('Verify Login Text displays', async ({ urlNav }) => {
   await urlNav.verifyLoginTextDisplays();
 });
 
-test('Verify Dashboard Elements are visible and have correct text', async ({ urlNav, page }) => {
+test('Verify Dashboard Elements are visible and have correct text', async ({urlNav, page}) => {
   await urlNav.login('cjbusa143@gmail.com', 'Password@123');
   const dashboard = new Dashboard(page);
   await dashboard.verifyDashboardElements_IsVisible();
@@ -43,7 +38,7 @@ test('Verify navigation when succesful click on first Company happened', async (
 test('Verify Company Dashoard Invite Button is clicked', async ({ urlNav,DashboardNav,CompanyDashboardNav }) => {
   await urlNav.login('cjbusa143@gmail.com', 'Password@123');
   await DashboardNav.ChoseFirstOption.click();
-  await expect(CompanyDashboardNav.InviteBtn).toBeVisible();
+  await expect.soft(CompanyDashboardNav.InviteBtn).toBeVisible();
   await CompanyDashboardNav.InviteBtn.click();
 });
 

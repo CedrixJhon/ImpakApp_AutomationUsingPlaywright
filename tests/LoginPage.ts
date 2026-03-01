@@ -44,10 +44,10 @@ export class LoginPage {
     await this.signInButton.click();
   }
   async verifyLoginTextDisplays() {
-    await expect(this.header).toBeVisible();
-    await expect(this.emailTxt).toBeVisible();
-    await expect(this.passTxt).toBeVisible();
-    await expect(this.forgotPassTxt).toBeVisible();
-    await expect(this.infoTxt).toBeVisible();
+    await expect.soft(this.header).toBeVisible();
+    await expect.soft(this.emailTxt).toBeVisible();
+    await expect.soft(this.passTxt).toBeVisible();
+    await expect.soft(this.forgotPassTxt).toBeVisible();
+    await expect.soft(this.infoTxt).toBeVisible();
   }
 }
