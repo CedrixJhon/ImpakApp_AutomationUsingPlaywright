@@ -3,6 +3,8 @@ import { test } from './Fixtures';
 import { CredentialData } from './Credentials';
 import { Dashboard } from './Dashboard';
 
+
+//Login Tests
 test.describe('Login Tests', () => {
 
   for (const data of CredentialData) {
@@ -18,7 +20,7 @@ test.describe('Login Tests', () => {
   }
 });
 
-
+// Dashboard Tests - Company Listed on the Dashboard
 test('Verify Login Text displays', async ({ urlNav }) => {
   await urlNav.verifyLoginTextDisplays();
 });
@@ -29,6 +31,8 @@ test('Verify Dashboard Elements are visible and have correct text', async ({urlN
   await dashboard.verifyDashboardElements_IsVisible();
   await dashboard.verifyDashboardElements_HaveText();
 });
+
+// Company Dashboard Tests
 test('Verify navigation when succesful click on first Company happened', async ({ urlNav, page,DashboardNav }) => {
     await urlNav.login('cjbusa143@gmail.com', 'Password@123');
     await DashboardNav.ChoseFirstOption.click();
@@ -54,7 +58,7 @@ test('Verify Company Dasboard Invite Pop Successful Invite', async ({ urlNav,Das
   await CompanyDashboardNav.InputEmailInvite();
 });
 
-
+// Invite Section Test Cases
 test('Verify Invited Displayed on Invite Section --> Second User', async({page,urlNav,DashboardNav,CompanyDashboardNav,InvitedMembers}) =>{
     await urlNav.login('cjbusa143@gmail.com', 'Password@123');
     await DashboardNav.ChoseFirstOption.click();
@@ -64,8 +68,7 @@ test('Verify Invited Displayed on Invite Section --> Second User', async({page,u
     await CompanyDashboardNav.ClosePopUp.click();
     await page.reload();
     await InvitedMembers.VerifyInvited_Displays();
-    
-    
+     
 });
 test('Verify Invited Email Already Exists Error -->SecondUser', async({page,urlNav,DashboardNav,CompanyDashboardNav,InvitedMembers}) =>{
   await urlNav.login('cjbusa143@gmail.com', 'Password@123');
@@ -85,6 +88,8 @@ test('Verify Delete Invited Member --> Second User', async({page,urlNav,Dashboar
 
 });
 
+
+// Groups Test Cases
 test ('Verify Navigattion to Groups Page', async({urlNav,DashboardNav,GroupsNav}) => {
   await urlNav.login('cjbusa143@gmail.com', 'Password@123');
   await DashboardNav.ChoseFirstOption.click();
@@ -98,4 +103,11 @@ test('Verify Groups Header Displayed', async({urlNav,DashboardNav,GroupsNav}) =>
   await GroupsNav.ClickCommunityMenu();
   await GroupsNav.VerifyGroupDashboardDisplays()
   
+});
+
+// Department Test Cases
+test ('Verify Navigattion to Departments Page', async({urlNav,DashboardNav,DepartmentsNav}) => {
+  await urlNav.login('cjbusa143@gmail.com', 'Password@123');
+  await DashboardNav.ChoseFirstOption.click();
+  await DepartmentsNav.GoToDepartmentsPage();
 });
