@@ -14,6 +14,6 @@ export class Departments {
     }
     async GoToDepartmentsPage(){
         await this.CommunittyMenuDropdown.click();
-        await this.DepartmentsMenuOption.click();
+        await this.DepartmentsMenuOption.click();   
     }
 }
