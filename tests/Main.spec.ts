@@ -4,6 +4,8 @@ import { CredentialData } from './Credentials';
 import { Dashboard } from './Dashboard';
 
 
+
+
 //Login Tests
 test.describe('Login Tests', () => {
 
@@ -26,7 +28,7 @@ test('Verify Login Text displays', async ({ urlNav }) => {
 });
 
 test('Verify Dashboard Elements are visible and have correct text', async ({urlNav, page}) => {
-  await urlNav.login('cjbusa143@gmail.com', 'Password@123');
+  await urlNav.login(process.env.TEST_USERNAME!, process.env.TEST_PASSWORD!);
   const dashboard = new Dashboard(page);
   await dashboard.verifyDashboardElements_IsVisible();
   await dashboard.verifyDashboardElements_HaveText();
@@ -34,33 +36,33 @@ test('Verify Dashboard Elements are visible and have correct text', async ({urlN
 
 // Company Dashboard Tests
 test('Verify navigation when succesful click on first Company happened', async ({ urlNav, page,DashboardNav }) => {
-    await urlNav.login('cjbusa143@gmail.com', 'Password@123');
+    await urlNav.login(process.env.TEST_USERNAME!, process.env.TEST_PASSWORD!);
     await DashboardNav.ChoseFirstOption.click();
     await expect(page).toHaveURL(DashboardNav.FirstOptionURL);
 });
 
 test('Verify Company Dashoard Invite Button is clicked', async ({ urlNav,DashboardNav,CompanyDashboardNav }) => {
-  await urlNav.login('cjbusa143@gmail.com', 'Password@123');
+  await urlNav.login(process.env.TEST_USERNAME!, process.env.TEST_PASSWORD! );
   await DashboardNav.ChoseFirstOption.click();
   await expect.soft(CompanyDashboardNav.InviteBtn).toBeVisible();
   await CompanyDashboardNav.InviteBtn.click();
 });
 
 test('Verify Company Dasboard Invite Pop Up Display', async ({ urlNav,DashboardNav,CompanyDashboardNav }) =>{
-  await urlNav.login('cjbusa143@gmail.com', 'Password@123');
+  await urlNav.login(process.env.TEST_USERNAME! , process.env.TEST_PASSWORD!);
   await DashboardNav.ChoseFirstOption.click();
   await CompanyDashboardNav.verifyCompanyDashboardElements_IsVisible();
 });
 
 test('Verify Company Dasboard Invite Pop Successful Invite', async ({ urlNav,DashboardNav,CompanyDashboardNav }) =>{
-  await urlNav.login('cjbusa143@gmail.com', 'Password@123');
+  await urlNav.login(process.env.TEST_USERNAME!, process.env.TEST_PASSWORD!);
   await DashboardNav.ChoseFirstOption.click();
   await CompanyDashboardNav.InputEmailInvite();
 });
 
 // Invite Section Test Cases
 test('Verify Invited Displayed on Invite Section --> Second User', async({page,urlNav,DashboardNav,CompanyDashboardNav,InvitedMembers}) =>{
-    await urlNav.login('cjbusa143@gmail.com', 'Password@123');
+    await urlNav.login(process.env.TEST_USERNAME!, process.env.TEST_PASSWORD!);
     await DashboardNav.ChoseFirstOption.click();
     await CompanyDashboardNav.navigationToInvitedSelection();
     await InvitedMembers.AddMemberViaInvite(CompanyDashboardNav);
@@ -71,7 +73,7 @@ test('Verify Invited Displayed on Invite Section --> Second User', async({page,u
      
 });
 test('Verify Invited Email Already Exists Error -->SecondUser', async({page,urlNav,DashboardNav,CompanyDashboardNav,InvitedMembers}) =>{
-  await urlNav.login('cjbusa143@gmail.com', 'Password@123');
+  await urlNav.login(process.env.TEST_USERNAME!, process.env.TEST_PASSWORD!);
   await DashboardNav.ChoseFirstOption.click();
   await CompanyDashboardNav.navigationToInvitedSelection();
   await InvitedMembers.AddMemberViaInvite(CompanyDashboardNav);
@@ -81,7 +83,7 @@ test('Verify Invited Email Already Exists Error -->SecondUser', async({page,urlN
 });
 
 test('Verify Delete Invited Member --> Second User', async({page,urlNav,DashboardNav,CompanyDashboardNav,InvitedMembers}) =>{
-  await urlNav.login('cjbusa143@gmail.com', 'Password@123');
+  await urlNav.login(process.env.TEST_USERNAME!, process.env.TEST_PASSWORD!);
   await DashboardNav.ChoseFirstOption.click();
   await CompanyDashboardNav.navigationToClosePopUp();
   await InvitedMembers.DeleteInvitedMember(CompanyDashboardNav);
@@ -91,14 +93,14 @@ test('Verify Delete Invited Member --> Second User', async({page,urlNav,Dashboar
 
 // Groups Test Cases
 test ('Verify Navigattion to Groups Page', async({urlNav,DashboardNav,GroupsNav}) => {
-  await urlNav.login('cjbusa143@gmail.com', 'Password@123');
+  await urlNav.login(process.env.TEST_USERNAME!, process.env.TEST_PASSWORD!);
   await DashboardNav.ChoseFirstOption.click();
   await GroupsNav.ClickCommunityMenu();
 
   });
 
 test('Verify Groups Header Displayed', async({urlNav,DashboardNav,GroupsNav}) => {
-  await urlNav.login('cjbusa143@gmail.com', 'Password@123');
+  await urlNav.login(process.env.TEST_USERNAME!, process.env.TEST_PASSWORD!);
   await DashboardNav.ChoseFirstOption.click();
   await GroupsNav.ClickCommunityMenu();
   await GroupsNav.VerifyGroupDashboardDisplays()
@@ -107,7 +109,7 @@ test('Verify Groups Header Displayed', async({urlNav,DashboardNav,GroupsNav}) =>
 
 // Department Test Cases
 test ('Verify Navigattion to Departments Page', async({urlNav,DashboardNav,DepartmentsNav}) => {
-  await urlNav.login('cjbusa143@gmail.com', 'Password@123');
+  await urlNav.login(process.env.TEST_USERNAME!, process.env.TEST_PASSWORD!);
   await DashboardNav.ChoseFirstOption.click();
   await DepartmentsNav.GoToDepartmentsPage();
 });
