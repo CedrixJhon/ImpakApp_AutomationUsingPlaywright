@@ -39,4 +39,37 @@ test('API Test for Put Request', async ({request}) => {
     }
     });
     expect(response.status()).toBe(200);
+
+    const body = await response.json();
+    console.log(body);
+
+});
+
+
+test('get token from login', async ({ request }) => {
+  const loginResponse = await request.post(
+    'https://impak.app/processCentralLogin',
+    {
+      form: {
+        email: 'cjbusa143@gmail.com',
+        password: 'Password@123'
+      }
+    }
+  );
+  console.log(loginResponse.status());
+  console.log(loginResponse.body());
+});
+
+
+test('GET Users API', async ({ request }) => {
+
+  const response = await request.get('https://reqres.in/api/users?page=2');
+  expect(response.status()).toBe(200);
+  console.log('STATUS:', response.status());
+
+  const body = await response.json();
+
+  expect(response.status()).toBe(200);
+  expect(body.data).toBeDefined();
+
 });
