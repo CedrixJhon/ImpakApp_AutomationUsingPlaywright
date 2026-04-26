@@ -1,10 +1,9 @@
-
 export const CredentialData = [
 
     {
         "id": "Creds01_Valid",
-        "username": "cjbusa143@gmail.com",
-        "password": "Password@123",
+        "username": process.env.TEST_USERNAME!,
+        "password": process.env.TEST_PASSWORD!,
         "ExpectedURL": "https://impak.app/dashboard",
         "IsError": false
     },
